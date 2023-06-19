@@ -1,0 +1,28 @@
+server:
+  port: 7070
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: CARRENTAL-SERVICE
+          uri: lb://CARRENTAL-SERVICE
+          predicates:
+            - Path=/api/v1/exchange**
+        - id: EXCHANGE-SERVICE
+          uri: lb://EXCHANGE-SERVICE
+          predicates:
+            - Path=/exchange**
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
